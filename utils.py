@@ -5,6 +5,7 @@ from abc import ABC, abstractmethod
 from typing import Iterable, List, Optional
 
 
+
 class ReplayBuffer(object):
 	def __init__(self, state_dim, action_dim, max_size=int(1e6)):
 		self.max_size = max_size
@@ -18,7 +19,6 @@ class ReplayBuffer(object):
 		self.not_done = np.zeros((max_size, 1))
 
 		self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-		
 
 
 	def add(self, state, action, next_state, reward, done):
@@ -43,6 +43,7 @@ class ReplayBuffer(object):
 			torch.FloatTensor(self.not_done[ind]).to(self.device)
 		)
 
+
 class ActionNoise(ABC):
     """
     The action noise base class
@@ -60,6 +61,7 @@ class ActionNoise(ABC):
     @abstractmethod
     def __call__(self) -> np.ndarray:
         raise NotImplementedError()
+
 class OrnsteinUhlenbeckActionNoise(ActionNoise):
     """
     An Ornstein Uhlenbeck action noise, this is designed to approximate Brownian motion with friction.
